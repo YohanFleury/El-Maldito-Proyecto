@@ -2,6 +2,8 @@
   "expo": {
     "name": "ElMalditoProyecto",
     "slug": "ElMalditoProyecto",
+    "privacy": "unlisted",
+    "owner": "teamemp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,16 +20,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yohanov.ElMalditoProyecto"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.yohanov.ElMalditoProyecto"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bd12aee8-bae5-454b-a639-e1b47cd51ec2"
+      }
     }
   }
 }
