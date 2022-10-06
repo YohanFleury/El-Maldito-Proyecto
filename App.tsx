@@ -1,17 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, } from 'react-native';
+import Screen from './app/components/Screen';
 
 import ClassicBtn from './app/components/ClassicBtn/ClassicBtn';
+import AppTextInput from './app/components/AppTextInput/AppTextInput';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ClassicBtn 
-        title='Sign in' 
-        onPress={() => console.log('pressed !')} 
-        icon={require('./app/assets/arrow.png')} />
-      <StatusBar style="auto" />
-    </View>
+      <Screen>
+        <View style={styles.view}>
+          <AppTextInput placeholder='Email' icon="email-outline" />
+          <AppTextInput placeholder='password' icon="lock-outline" isPassword />
+
+          <ClassicBtn 
+            title='Sign in' 
+            onPress={() => console.log('pressed !')} 
+            icon={require('./app/assets/arrow.png')} />
+          </View>
+        <StatusBar style="auto" />
+      </Screen>
   );
 }
 
@@ -22,4 +29,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  view: {
+    padding: 10,
+    backgroundColor: "white"
+  }
 });
