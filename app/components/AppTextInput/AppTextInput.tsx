@@ -6,19 +6,22 @@ import { AppTextInputProps } from './AppTextInput-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const AppTextInput = ({ placeholder, icon, isPassword = false, size=20 }: AppTextInputProps) => {
+const AppTextInput = ({ icon, isPassword = false, size=20, ...otherProps }: any) => {
     const [isHidden, setIsHidden] = useState<boolean>(isPassword)
+    const [value, setValue] = useState<string>('')
    return (
       <View style={styles.container}>
         <View style={styles.secondContainer}>
-            {icon && <MaterialCommunityIcons name={icon} size={size} color="#293241" style={styles.icon} />
+            {icon && 
+            <MaterialCommunityIcons name={icon} size={size} color="#293241" style={styles.icon} />
             }
             <TextInput 
-                placeholder={placeholder}
+                testID='test'
                 placeholderTextColor='#777E90'
                 style={styles.input}
-                onChangeText={e => console.log('input changed',e)}
+                {...otherProps}
                 secureTextEntry={isHidden}
+                
                 />
             {isPassword &&
             <MaterialCommunityIcons 
