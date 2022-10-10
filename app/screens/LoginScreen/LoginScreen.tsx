@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, StyleSheet, Text} from 'react-native'
+import { View, StyleSheet, Text, Alert} from 'react-native'
 import * as Yup from 'yup'
+import { Auth } from 'aws-amplify'
 
 import Screen from '../../components/Screen'
 import AppFormField from '../../components/Forms/AppFormField'
@@ -15,7 +16,24 @@ const validationSchema = Yup.object().shape({
    password: Yup.string().required().min(5).max(15).label('Password')
 })
 
+interface DataSignInProps {
+   email: string
+   password: string
+}
+
 const LoginScreen = () => { 
+
+   const onSignIn = async ({ email, password }: DataSignInProps) => {
+      console.log('data: ', email, password )
+      try {
+         const response = await Auth.signIn(email, password)
+         console.log('response : ', response)
+      } catch (e: any) {
+         console.log(e)
+         Alert.alert('oups !', e.message)
+      }
+   }
+
    return (
    <Screen>
       <FormsTemplate socialMedia>
@@ -23,7 +41,7 @@ const LoginScreen = () => {
             <Text style={styles.title}>Sign in</Text>
             <AppForm
                initialValues={{email: '', password: ''}}
-               onSubmit={(values: any) => console.log(values)}
+               onSubmit={(data: DataSignInProps) => onSignIn(data)}
                validationSchema={validationSchema}
             >
                <AppFormField

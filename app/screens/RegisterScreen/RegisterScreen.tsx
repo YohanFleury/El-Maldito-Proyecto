@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import * as Yup from 'yup'
+import { Auth } from 'aws-amplify'
 
 import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
@@ -17,6 +18,8 @@ const validationSchema = Yup.object().shape({
  })
 
 const RegisterScreen = () => {
+
+
    return (
       <Screen>
         <FormsTemplate>
