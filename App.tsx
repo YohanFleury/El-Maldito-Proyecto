@@ -11,74 +11,22 @@ import RegisterScreen from './app/screens/RegisterScreen/RegisterScreen';
 import {Amplify} from 'aws-amplify'
 import awsconfig from './src/aws-exports'
 import NotifCard from './app/components/NotificationCard/NotifCard';
+import NotifsScreen from './app/screens/NotifsScreen/NotifsScreen';
+import ProfilScreen from './app/screens/ProfilScreen/ProfilScreen';
 
 Amplify.configure(awsconfig)
 
 const App = () => {
   return (
       <SafeAreaView style={styles.container}>
-        <ScrollView>
-        <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-            <NotifCard 
-            content='Avatars are found all over ui design from lists to profile screens. They are commonly used to represent Avatars are found all over ui design from lists to profile screens. They are commonly used to represent'
-            time='6h'
-            onPress={() => console.log('pressed')}
-            onPressAvatar={() => console.log('profil pressed')}
-            source={require('./app/assets/maxime.jpg')} />
-          </ScrollView>
+        <ProfilScreen
+          userName='max_psg'
+          accountName='Maxime Neymar'
+          coverPictureSource={require('./app/assets/psg.jpg')}
+          profilPictureSource={require('./app/assets/maxime.jpg')}
+          onPressProfilPicture={() => console.log('photo pressed')}
+          ppSize={90}
+        />
       </SafeAreaView>
   );
 }

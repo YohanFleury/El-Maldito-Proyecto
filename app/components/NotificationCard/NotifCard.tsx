@@ -17,9 +17,11 @@ const NotifCard = ({ content, time, onPress, onPressAvatar, source }: NotifCardP
                         <ProfilPicture size={65} source={source} onPress={onPressAvatar} />
                     </View>
                     <View style={styles.content}>
-                        <Text>{content}</Text>
+                        <Text style={{color: colors.medium}}>{content}</Text>
                     </View>
-                    <View style={styles.time}><Text style={styles.timeText}>{time}</Text></View>
+                    <View style={styles.time}>
+                        <Text style={styles.timeText}>{time}</Text>
+                    </View>
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
     },
     content: {
         padding: 5,
-        width: '75%'
+        width: '75%',
     },
     time: {
         padding: 5,
