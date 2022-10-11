@@ -6,7 +6,7 @@ import { ProfilPictureProps } from './UserPicture-types'
 import colors from '../../config/colors';
 
 
-const ProfilPicture = ({ size, source, onPress, isCertified }: ProfilPictureProps) => {
+const ProfilPicture = ({ size, source, onPress, isCertified = false }: ProfilPictureProps) => {
     return (
     <>
         {isCertified &&

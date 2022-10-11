@@ -4,7 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements'
 import { Fontisto } from '@expo/vector-icons';
-
+import { Feather } from '@expo/vector-icons';
 
 import ProfilPicture from '../../components/UserPictures/ProfilPicture';
 import CoverPicture from '../../components/UserPictures/CoverPicture';
@@ -18,11 +18,19 @@ import { AccountProProps } from './ProfilScreen-types';
 const ProfilScreen = ({
     userName,
     accountName,
+    bio,
+    followers,
     coverPictureSource, 
     profilPictureSource, 
     ppSize,
     onPressProfilPicture
 }: AccountProProps) => {
+
+    const kFormatteur = (num: number) => {
+        const value: any = ((Math.abs(num)/1000).toFixed(0))
+        return Math.abs(num) > 999 ? Math.sign(num)* value + 'k' : Math.sign(num)*Math.abs(num)
+    }
+
     return (
     <Screen>
         <ScrollView>
@@ -36,18 +44,20 @@ const ProfilScreen = ({
                 <View style={styles.container2}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20}}>
                         <View style={{width: '80%'}}>
+                            <View style={{marginTop: 5, marginBottom: 5}}>
+                                <Divider width={1} color={colors.lightGrey} />
+                            </View>
                             <View style={styles.verified}>
                                 <Text style={styles.accountName}>
                                     {accountName}
                                 </Text>
-                                <MaterialCommunityIcons name="check-circle-outline" size={22} />
+                                <Feather name="check-circle" size={18} color="black" />
                             </View>
                             <Text style={styles.userName}>
                                 @{userName}                    
                             </Text>
                             <Text style={styles.bio}>
-                                Hello moi c'est maxime, ultra du psg depuis 27 ans ! Je vais vous faire 
-                                vivre ma passion avec ferveur. Allez Paris !!
+                                {bio}
                             </Text>
                         </View>
                         <View style={styles.iconsActions}>
@@ -56,16 +66,28 @@ const ProfilScreen = ({
                             <CircleIcon><Fontisto name="bell" size={24} color={colors.primary} /></CircleIcon>
                         </View>
                     </View>
-                    <ClassicButton title="Subscribe" color={colors.primary} onPress={() => console.log("S'abonner")} />
                 </View>
             </View>
-            <Divider width={4} color={colors.lightGrey} />
+            <View style={styles.followers}>
+                <Text style={{marginRight: 5, fontSize: 13}}>{kFormatteur(followers)}</Text>
+                <Text style={{color: colors.medium, fontSize: 13}}>followers</Text>
+            </View>
+            <Divider width={1} color={colors.lightGrey} />
+            <View style={{padding: 15}}>
+                <ClassicButton title="Subscribe" color={colors.primary} onPress={() => console.log("S'abonner")} />
+            </View>
+            <Divider width={6} color={colors.lightGrey} />
             <View style={styles.secondContainer}>
                 <View style={styles.buttonsContainer}>
-                    <Button title="Feed" color={colors.primary} onPress={() => console.log('Publication button pressed')} />
-                    <Button title="Medias" color={colors.primary} onPress={() => console.log('Photo button pressed')} />
+                    <Button title="Posts" color={colors.primary} onPress={() => console.log('Publication button pressed')} />
+                    <View style={{ width: 1, height: '30%', backgroundColor: colors.lightGrey}} />
+                    <Button title="Medias" color={colors.medium} onPress={() => console.log('Photo button pressed')} />
+                    <View style={{ width: 1, height: '30%', backgroundColor: colors.lightGrey}} />
+                    <Button title="Lives" color={colors.medium} onPress={() => console.log('Photo button pressed')} />
                 </View>
-                <Divider />
+                <View style={{width: '90%', alignSelf: 'center', marginTop: 8}}>
+                    <Divider />
+                </View>
             </View>
         </ScrollView>
     </Screen>
@@ -80,11 +102,11 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     bio: {
-        marginTop: 15
+        marginTop: 15,
+        fontSize: 16
     },
     
     buttonsContainer: {
-        padding: 15,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center'
@@ -92,7 +114,7 @@ const styles = StyleSheet.create({
 
 
     container2: {
-        padding: 15,
+        padding: 10,
         marginTop: 10
     },
     
@@ -100,14 +122,28 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        padding: 15,
+        padding: 10,
     },
     
+    followers: {
+        padding: 10,
+        flexDirection: 'row',
+    },
+
+    iconsActions: {
+        padding: 5,
+        marginTop: "-15%",
+        marginRight: "-3%",
+        alignItems: 'flex-end',
+        justifyContent: 'space-evenly'
+        
+    },
+
     mainContainer: {
         padding: 2
     },
     secondContainer: {
-        padding: 15
+        padding: 5
     },
     test: {
         borderTopRightRadius: 15,
@@ -119,13 +155,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         bottom: 50,
         left: "35%",
-    },
-    iconsActions: {
-        padding: 5,
-        marginTop: "-15%",
-        alignItems: 'flex-end',
-        justifyContent: 'space-evenly'
-        
     },
     userName: {
         fontSize: 15,
