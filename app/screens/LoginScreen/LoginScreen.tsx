@@ -9,6 +9,7 @@ import SubmitBtn from '../../components/Forms/SubmitBtn'
 import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
+import routes from '../../navigation/routes'
 
 
 const validationSchema = Yup.object().shape({
@@ -21,9 +22,9 @@ interface DataSignInProps {
    password: string
 }
 
-const LoginScreen = () => { 
+const LoginScreen = ({navigation}: any) => { 
 
-   const onSignIn = async ({ email, password }: DataSignInProps) => {
+   const onSignIn = async ({ email, password}: DataSignInProps) => {
       console.log('data: ', email, password )
       try {
          const response = await Auth.signIn(email, password)
@@ -62,12 +63,12 @@ const LoginScreen = () => {
                   isPassword
                   textContentType="password"
                />
-               <Text onPress={() => console.log("change pswd")} style={styles.forgotPassword}>Forgot Password ?</Text>
+               <Text onPress={() => navigation.navigate(routes.FORGOTPASSWORD)} style={styles.forgotPassword}>Forgot Password ?</Text>
                <SubmitBtn title='Sign in' icon="arrow-right" />
                <CtaPhrase 
                   phrase="Don't have an account ?" 
                   callToAction='Sign up' 
-                  onPress={() => console.log('go to register screen')}   
+                  onPress={() => navigation.navigate(routes.REGISTER) }   
                />
             </AppForm>
          </View>
@@ -78,7 +79,7 @@ const LoginScreen = () => {
 
 const styles = StyleSheet.create({
    container: {
-      marginTop: 80,
+      marginTop: '15%',
       padding: 20
    },
    title: {

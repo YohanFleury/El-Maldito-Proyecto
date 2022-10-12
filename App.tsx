@@ -7,30 +7,23 @@ import AppTextInput from './app/components/AppTextInput/AppTextInput';
 import LoginScreen from './app/screens/LoginScreen/LoginScreen';
 import FormsTemplate from './app/components/Forms/FormsTemplate';
 import RegisterScreen from './app/screens/RegisterScreen/RegisterScreen';
-
-import {Amplify} from 'aws-amplify'
-import awsconfig from './src/aws-exports'
 import NotifCard from './app/components/NotificationCard/NotifCard';
 import NotifsScreen from './app/screens/NotifsScreen/NotifsScreen';
 import ProfilScreen from './app/screens/ProfilScreen/ProfilScreen';
+
+import {Amplify} from 'aws-amplify'
+import awsconfig from './src/aws-exports'
+import {NavigationContainer} from '@react-navigation/native'
+import ConfirmEmailScreen from './app/screens/ConfirmEmailScreen/ConfirmEmailScreen';
+import AuthNavigator from './app/navigation/AuthNavigator';
 
 Amplify.configure(awsconfig)
 
 const App = () => {
   return (
-      <SafeAreaView style={styles.container}>
-        <ProfilScreen
-          userName='max_psg'
-          accountName='Maxime Neymar'
-          bio="Hello moi c'est maxime, ultra du psg depuis 27 ans ! Je vais vous faire 
-          vivre ma passion avec ferveur. Allez Paris !!"
-          followers={315450}
-          coverPictureSource={require('./app/assets/psg.jpg')}
-          profilPictureSource={require('./app/assets/maxime.jpg')}
-          onPressProfilPicture={() => console.log('photo pressed')}
-          ppSize={90}
-        />
-      </SafeAreaView>
+    <NavigationContainer>
+      <AuthNavigator />
+    </NavigationContainer>
   );
 }
 
@@ -47,3 +40,16 @@ const styles = StyleSheet.create({
 });
 
 export default App
+
+
+{/* <ProfilScreen
+          userName='max_psg'
+          accountName='Maxime Neymar'
+          bio="Hello moi c'est maxime, ultra du psg depuis 27 ans ! Je vais vous faire 
+          vivre ma passion avec ferveur. Allez Paris !!"
+          followers={315450}
+          coverPictureSource={require('./app/assets/psg.jpg')}
+          profilPictureSource={require('./app/assets/maxime.jpg')}
+          onPressProfilPicture={() => console.log('photo pressed')}
+          ppSize={90}
+        /> */}

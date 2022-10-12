@@ -9,16 +9,34 @@ import Screen from '../../components/Screen'
 import AppFormField from '../../components/Forms/AppFormField'
 import SubmitBtn from '../../components/Forms/SubmitBtn'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
+import routes from '../../navigation/routes'
 
 const validationSchema = Yup.object().shape({
-    username: Yup.string().required().min(3).max(13),
+    name: Yup.string().required().min(3).max(13),
     email: Yup.string().required().email().label('Email'),
-    phoneNumber: Yup.string().required().label('Phone number') ,
-    password: Yup.string().required().min(5).max(15).label('Password')
+    password: Yup.string().required().min(5).max(15).label('Password'),
  })
+ interface DataSignInProps {
+    email: string
+    password: string
+    name: string
+ }
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}: any) => {
 
+    const registerUser = async ({email, password, name}: DataSignInProps) => {
+        console.log('data : ', email, password, name)
+        try {
+            const response = await Auth.signUp({
+                username: email,
+                password,
+                attributes: {name}
+            })
+            console.log('reponse : ',response)
+        } catch (e) {
+            console.log('erreur reçue : ',e)
+        }
+    }
 
    return (
       <Screen>
@@ -26,18 +44,18 @@ const RegisterScreen = () => {
             <View style={styles.container}>
                 <Text style={styles.title}>Sign up</Text>
                 <AppForm
-                    initialValues={{username: '', email: '', phoneNumber: '', password: ''}}
-                    onSubmit={(values: any) => console.log(values)}
+                    initialValues={{name: '', email: '', password: '', confirmPassword: ''}}
+                    onSubmit={(values: any) => registerUser(values)}
                     validationSchema={validationSchema}
                 >
                      <AppFormField
                         autoCapitalize="none"
                         autoCorrect={false}
                         icon="human-greeting-variant"
-                        name="username"
+                        name="name"
                         keyboardType="default"
                         placeholder="Username"
-                        textContentType="username"
+                        textContentType="name"
                                 />
                     <AppFormField
                         autoCapitalize="none"
@@ -61,7 +79,7 @@ const RegisterScreen = () => {
                     <CtaPhrase 
                         phrase='Already have an account ?'
                         callToAction='Sign in'
-                        onPress={() => console.log('go to sign in')}
+                        onPress={() => navigation.navigate(routes.LOGIN)}
                         />
                 </AppForm>
             </View>
@@ -72,7 +90,7 @@ const RegisterScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 80,
+        marginTop: '15%',
         padding: 20
      },
      title: {

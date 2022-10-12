@@ -1,6 +1,6 @@
 {
   "auth": {
-    "AuthenticationSharedSkills": {
+    "ReactNativeAuth": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -12,8 +12,7 @@
         ],
         "signupAttributes": [
           "EMAIL",
-          "NICKNAME",
-          "PHONE_NUMBER"
+          "NAME"
         ],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
