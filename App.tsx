@@ -13,16 +13,33 @@ import ProfilScreen from './app/screens/ProfilScreen/ProfilScreen';
 
 import {Amplify} from 'aws-amplify'
 import awsconfig from './src/aws-exports'
+import {Auth} from 'aws-amplify'
+
 import {NavigationContainer} from '@react-navigation/native'
 import ConfirmEmailScreen from './app/screens/ConfirmEmailScreen/ConfirmEmailScreen';
 import AuthNavigator from './app/navigation/AuthNavigator';
+import { useEffect, useState } from 'react';
+import AppNavigator from './app/navigation/AppNavigator';
 
 Amplify.configure(awsconfig)
 
 const App = () => {
+
+  const [user, setUser] = useState(undefined)
+
+  useEffect(() => {
+    checkUser()
+  }, [])
+
+  const checkUser = async () => {
+    const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
+    if (authUser) setUser(authUser)
+    console.log('current user : ', authUser)
+  }
+
   return (
     <NavigationContainer>
-      <AuthNavigator />
+     {user ? <AppNavigator /> :  <AuthNavigator />}
     </NavigationContainer>
   );
 }

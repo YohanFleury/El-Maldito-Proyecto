@@ -3,5 +3,6 @@ export default Object.freeze({
     REGISTER: 'Register',
     CONFIRMEMAIL: 'ConfirmEmail',
     FORGOTPASSWORD: 'ForgotPassword',
-    UPDATEPASSWORD: 'UpdatePassword'
+    UPDATEPASSWORD: 'UpdatePassword',
+    HOME: 'Home'
 })
