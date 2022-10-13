@@ -2,6 +2,8 @@ import React from 'react'
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native'
 import * as Yup from 'yup'
 import { Auth } from 'aws-amplify'
+import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import Screen from '../../components/Screen'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
@@ -11,6 +13,8 @@ import SubmitBtn from '../../components/Forms/SubmitBtn'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
 import colors from '../../config/colors'
 import routes from '../../navigation/routes'
+import useAuthFlow from '../../hooks/useAuthFlow'
+import { AuthRoutesParams } from '../../navigation/AuthNavigator'
 
 
 const validationSchema = Yup.object().shape({
@@ -19,16 +23,11 @@ const validationSchema = Yup.object().shape({
 
  })
 
-const ConfirmEmailScreen = ({ navigation }: any) => {
+const ConfirmEmailScreen = () => {
 
-    const onConfirm = async (data: any) => {
-      try {
-        await Auth.confirmSignUp(data.email, data.code)
-        navigation.navigate(routes.LOGIN)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
+    const {request, loading} = useAuthFlow()
+
 
    return (
     <Screen>
@@ -37,7 +36,7 @@ const ConfirmEmailScreen = ({ navigation }: any) => {
             <Text style={styles.title}>Confirm your email</Text>
             <AppForm
                 initialValues={{code: '', email: ''}}
-                onSubmit={(values: any) => onConfirm(values)}
+                onSubmit={({email, code}: any) => request(Auth.confirmSignUp(email, code))}
                 validationSchema={validationSchema}
             >
                 <AppFormField
@@ -57,7 +56,7 @@ const ConfirmEmailScreen = ({ navigation }: any) => {
                     placeholder="Confirmation code"
                     textContentType="oneTimeCode"
                             />
-                <SubmitBtn title="Confirm" icon="arrow-right" />
+                <SubmitBtn title={loading ? "Loading..." : "Confirm"} icon="arrow-right" />
                 <TouchableWithoutFeedback onPress={() => console.log('')}>
                     <Text style={{ fontSize: 16, color: colors.primary, textAlign: 'center' }}>Not reiceved ? Resend code </Text>
                 </TouchableWithoutFeedback>

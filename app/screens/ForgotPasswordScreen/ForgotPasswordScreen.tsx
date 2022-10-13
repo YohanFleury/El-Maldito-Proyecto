@@ -2,6 +2,8 @@ import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { Auth } from 'aws-amplify'
 import * as Yup from 'yup'
+import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import Screen from '../../components/Screen'
 import AppFormField from '../../components/Forms/AppFormField'
@@ -10,23 +12,22 @@ import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
+import useAuthFlow from '../../hooks/useAuthFlow'
+import { AuthRoutesParams } from '../../navigation/AuthNavigator'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email()
  })
 
-const ForgotPasswordScreen = ({navigation}: any) => {
+ type ForgotPasswordProps = {
+    email: string;
+ }
 
-    const resetPswd = async (data: any) => {
-        console.log('dataaaa', data)
-        try {
-            await Auth.forgotPassword(data.email)
-            navigation.navigate(routes.UPDATEPASSWORD)
-        } catch (error) {
-            console.log('error', error)
-        }
-    }
 
+const ForgotPasswordScreen = () => {
+    
+    const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
+    const {request, loading, data, error} = useAuthFlow()
     return (
         <Screen>
            <FormsTemplate>
@@ -34,7 +35,9 @@ const ForgotPasswordScreen = ({navigation}: any) => {
                  <Text style={styles.title}>Forgot Password</Text>
                  <AppForm
                     initialValues={{email: ''}}
-                    onSubmit={(data: any) => resetPswd(data)}
+                    onSubmit={({email}: ForgotPasswordProps) => request(Auth.forgotPassword(email)).then(() => {
+                        if(!error) {navigation.navigate(routes.UPDATEPASSWORD, {email: email})}
+                    })}
                     validationSchema={validationSchema}
                  >
                     <AppFormField
@@ -47,7 +50,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
                        textContentType="emailAddress"
                              />
                     
-                    <SubmitBtn title='Confirm' />
+                    <SubmitBtn title={loading ? 'Loading...' : 'Confirm'} />
                     <CtaPhrase 
                        phrase="Go back to" 
                        callToAction='Sign in' 

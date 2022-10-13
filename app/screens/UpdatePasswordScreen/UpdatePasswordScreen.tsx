@@ -2,6 +2,9 @@ import React from 'react'
 import { View, StyleSheet, Text, Alert } from 'react-native'
 import { Auth } from 'aws-amplify'
 import * as Yup from 'yup'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import type { RouteProp } from '@react-navigation/native';
 
 import Screen from '../../components/Screen'
 import AppFormField from '../../components/Forms/AppFormField'
@@ -10,24 +13,25 @@ import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
+import useAuthFlow from '../../hooks/useAuthFlow'
+import { AuthRoutesParams } from '../../navigation/AuthNavigator'
 
 const validationSchema = Yup.object().shape({
-    email: Yup.string().required().email().label('Email'),
     code: Yup.string().required(),
     password: Yup.string().required().min(5).max(15).label('Password')
  })
 
-const UpdatePasswordScreen = ({navigation}: any) => {
+ type UpdatePasswordProps = {
+    email: string;
+    code: string;
+    password: string;
+ }
 
-    const upDatePswd = async (data: any) => {
-        console.log('dataaa', data)
-        try {
-            await Auth.forgotPasswordSubmit(data.email, data.code, data.password)
-            navigation.navigate(routes.LOGIN)
-        } catch (error) {
-            console.log('erreur', error)
-        }
-    }
+const UpdatePasswordScreen = () => {
+
+    const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
+    const {params} = useRoute<RouteProp<AuthRoutesParams>>()
+    const {request, loading} = useAuthFlow()
 
     return (
         <Screen>
@@ -36,10 +40,13 @@ const UpdatePasswordScreen = ({navigation}: any) => {
                  <Text style={styles.title}>Update Password</Text>
                  <AppForm
                     initialValues={{email: '', code: '', password: ''}}
-                    onSubmit={(data: any) => upDatePswd(data)}
+                    onSubmit={({email,code, password}: UpdatePasswordProps) => {
+                        request(Auth.forgotPasswordSubmit(email, code, password))}
+                        
+                    }
                     validationSchema={validationSchema}
                  >
-                    <AppFormField
+                     <AppFormField
                   autoCapitalize="none"
                   autoCorrect={false}
                   icon="email-outline"
@@ -47,7 +54,10 @@ const UpdatePasswordScreen = ({navigation}: any) => {
                   keyboardType="email-address"
                   placeholder="Email"
                   textContentType="emailAddress"
+                  value={params?.email}
+                  editable={false}
                         />
+
                     <AppFormField
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -65,7 +75,7 @@ const UpdatePasswordScreen = ({navigation}: any) => {
                         isPassword
                         textContentType="password"
                />
-                    <SubmitBtn title='Update' />
+                    <SubmitBtn title={loading ? 'Loading...' : 'Update'} />
                     <CtaPhrase 
                        phrase="Go back to" 
                        callToAction='Sign in' 

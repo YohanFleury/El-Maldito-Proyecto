@@ -13,7 +13,7 @@ import ProfilScreen from './app/screens/ProfilScreen/ProfilScreen';
 
 import {Amplify} from 'aws-amplify'
 import awsconfig from './src/aws-exports'
-import {Auth} from 'aws-amplify'
+import {Auth, Hub} from 'aws-amplify'
 
 import {NavigationContainer} from '@react-navigation/native'
 import ConfirmEmailScreen from './app/screens/ConfirmEmailScreen/ConfirmEmailScreen';
@@ -31,10 +31,23 @@ const App = () => {
     checkUser()
   }, [])
 
+  useEffect(() => {
+
+    const listener = (data: any) => {
+      if (data.payload.event === 'signIn' || data.payload.event === 'signOut' ) {
+        checkUser()
+      }
+    }
+
+    Hub.listen('auth', listener)
+
+    return () => Hub.remove('auth', listener)
+  }, [])
+  
+
   const checkUser = async () => {
     const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
     if (authUser) setUser(authUser)
-    console.log('current user : ', authUser)
   }
 
   return (

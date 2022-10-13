@@ -6,9 +6,8 @@ import { AppTextInputProps } from './AppTextInput-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const AppTextInput = ({ icon, isPassword = false, size=20, ...otherProps }: any) => {
+const AppTextInput = ({ icon, isPassword = false, size=20, ...otherProps }: AppTextInputProps) => {
     const [isHidden, setIsHidden] = useState<boolean>(isPassword)
-    const [value, setValue] = useState<string>('')
    return (
       <View style={styles.container}>
         <View style={styles.secondContainer}>
@@ -21,7 +20,7 @@ const AppTextInput = ({ icon, isPassword = false, size=20, ...otherProps }: any)
                 style={styles.input}
                 {...otherProps}
                 secureTextEntry={isHidden}
-                
+                maxLength={25}
                 />
             {isPassword &&
             <MaterialCommunityIcons 
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
    },
    password: {
-    marginLeft: -35,
+    marginLeft: -30,
    }
 })
 

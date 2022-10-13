@@ -8,7 +8,15 @@ import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPassword
 import UpdatePasswordScreen from '../screens/UpdatePasswordScreen/UpdatePasswordScreen'
 import routes from './routes'
 
-const Stack = createNativeStackNavigator()
+export type AuthRoutesParams = {
+   Login: undefined;
+   Register: undefined;
+   ConfirmEmail: undefined;
+   ForgotPassword: undefined;
+   UpdatePassword: {email: string};
+}
+
+const Stack = createNativeStackNavigator<AuthRoutesParams>()
 
 const AuthNavigator = () => {
    return (

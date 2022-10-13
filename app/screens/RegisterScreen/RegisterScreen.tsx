@@ -2,6 +2,8 @@ import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import * as Yup from 'yup'
 import { Auth } from 'aws-amplify'
+import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
@@ -10,34 +12,25 @@ import AppFormField from '../../components/Forms/AppFormField'
 import SubmitBtn from '../../components/Forms/SubmitBtn'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
+import useAuthFlow from '../../hooks/useAuthFlow'
+import { AuthRoutesParams } from '../../navigation/AuthNavigator'
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required().min(3).max(13),
     email: Yup.string().required().email().label('Email'),
     password: Yup.string().required().min(5).max(15).label('Password'),
  })
- interface DataSignInProps {
+ interface DataSignUpProps {
     email: string
     password: string
     name: string
  }
 
-const RegisterScreen = ({navigation}: any) => {
+const RegisterScreen = () => {
 
-    const registerUser = async ({email, password, name}: DataSignInProps) => {
-        console.log('data : ', email, password, name)
-        try {
-            const response = await Auth.signUp({
-                username: email,
-                password,
-                attributes: {name}
-            })
-            console.log('reponse : ',response)
-        } catch (e) {
-            console.log('erreur reçue : ',e)
-        }
-    }
-
+   const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>() 
+   const {request, loading} = useAuthFlow()
+    
    return (
       <Screen>
         <FormsTemplate>
@@ -45,7 +38,11 @@ const RegisterScreen = ({navigation}: any) => {
                 <Text style={styles.title}>Sign up</Text>
                 <AppForm
                     initialValues={{name: '', email: '', password: '', confirmPassword: ''}}
-                    onSubmit={(values: any) => registerUser(values)}
+                    onSubmit={({email, password, name}: DataSignUpProps) => request(Auth.signUp({
+                        username: email,
+                        password,
+                        attributes: {name}
+                    }))}
                     validationSchema={validationSchema}
                 >
                      <AppFormField
@@ -75,7 +72,7 @@ const RegisterScreen = ({navigation}: any) => {
                         isPassword
                         textContentType="password"
                     />
-                    <SubmitBtn title="Sign up" icon="arrow-right" />
+                    <SubmitBtn title={loading ? "Loading..." : "Sign up"} icon="arrow-right" />
                     <CtaPhrase 
                         phrase='Already have an account ?'
                         callToAction='Sign in'

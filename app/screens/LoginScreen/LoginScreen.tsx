@@ -2,6 +2,8 @@ import React from 'react'
 import { View, StyleSheet, Text, Alert} from 'react-native'
 import * as Yup from 'yup'
 import { Auth } from 'aws-amplify'
+import { useNavigation } from '@react-navigation/native'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import Screen from '../../components/Screen'
 import AppFormField from '../../components/Forms/AppFormField'
@@ -10,6 +12,9 @@ import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
+import useApi from '../../hooks/useApi'
+import useAuthFlow from '../../hooks/useAuthFlow'
+import { AuthRoutesParams } from '../../navigation/AuthNavigator'
 
 
 const validationSchema = Yup.object().shape({
@@ -22,18 +27,10 @@ interface DataSignInProps {
    password: string
 }
 
-const LoginScreen = ({navigation}: any) => { 
+const LoginScreen = () => { 
 
-   const onSignIn = async ({ email, password}: DataSignInProps) => {
-      console.log('data: ', email, password )
-      try {
-         const response = await Auth.signIn(email, password)
-         console.log('response : ', response)
-      } catch (e: any) {
-         console.log(e)
-         Alert.alert('oups !', e.message)
-      }
-   }
+   const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
+   const { data, request, error, loading } = useAuthFlow()
 
    return (
    <Screen>
@@ -42,7 +39,7 @@ const LoginScreen = ({navigation}: any) => {
             <Text style={styles.title}>Sign in</Text>
             <AppForm
                initialValues={{email: '', password: ''}}
-               onSubmit={(data: DataSignInProps) => onSignIn(data)}
+               onSubmit={({email, password}: DataSignInProps) => request(Auth.signIn(email, password))}
                validationSchema={validationSchema}
             >
                <AppFormField
@@ -64,7 +61,7 @@ const LoginScreen = ({navigation}: any) => {
                   textContentType="password"
                />
                <Text onPress={() => navigation.navigate(routes.FORGOTPASSWORD)} style={styles.forgotPassword}>Forgot Password ?</Text>
-               <SubmitBtn title='Sign in' icon="arrow-right" />
+               <SubmitBtn title={loading ? 'loading...' : 'Sign in'} icon="arrow-right" />
                <CtaPhrase 
                   phrase="Don't have an account ?" 
                   callToAction='Sign up' 
