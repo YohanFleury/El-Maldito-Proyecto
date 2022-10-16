@@ -21,6 +21,7 @@ const AppTextInput = ({ icon, isPassword = false, size=20, backgroundColor, ...o
                 {...otherProps}
                 secureTextEntry={isHidden}
                 maxLength={25}
+                returnKeyType='done'
                 />
             {isPassword &&
             <MaterialCommunityIcons 
