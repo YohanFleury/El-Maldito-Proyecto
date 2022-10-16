@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, StyleSheet, Text, Alert} from 'react-native'
+import React, { useEffect , useState} from 'react'
+import { View, StyleSheet, Text, Alert,} from 'react-native'
 import * as Yup from 'yup'
 import { Auth } from 'aws-amplify'
 import { useNavigation } from '@react-navigation/native'
@@ -12,9 +12,10 @@ import AppForm from '../../components/Forms/AppForm'
 import FormsTemplate from '../../components/Forms/FormsTemplate'
 import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
-import useApi from '../../hooks/useApi'
 import useAuthFlow from '../../hooks/useAuthFlow'
 import { AuthRoutesParams } from '../../navigation/AuthNavigator'
+import { useAppDispatch } from '../../hooks/useRedux'
+import { setEmailUser, setUser } from '../../redux/userSlice'
 
 
 const validationSchema = Yup.object().shape({
@@ -29,9 +30,22 @@ interface DataSignInProps {
 
 const LoginScreen = () => { 
 
+   const dispatch = useAppDispatch()
    const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
-   const { data, request, error, loading } = useAuthFlow()
+   const { request, error, loading } = useAuthFlow()
+   const {  request: goToConfirmScreen, loading: goToConfirmScreenLoading } = useAuthFlow()
 
+   const [fuckingMail, setfuckingMail] = useState<string>('')
+   
+
+   useEffect(() => {
+      if (error === "User is not confirmed.") {
+        
+          navigation.navigate(routes.CONFIRMEMAIL, {email: fuckingMail})
+          goToConfirmScreen(Auth.resendSignUp(fuckingMail))
+      }
+   }, [error])
+   
    return (
    <Screen>
       <FormsTemplate socialMedia>
@@ -39,7 +53,11 @@ const LoginScreen = () => {
             <Text style={styles.title}>Sign in</Text>
             <AppForm
                initialValues={{email: '', password: ''}}
-               onSubmit={({email, password}: DataSignInProps) => request(Auth.signIn(email, password))}
+               onSubmit={({email, password}: DataSignInProps) => {
+                  dispatch(setEmailUser(email))
+                  setfuckingMail(email)
+                  request(Auth.signIn(email, password))
+               }}
                validationSchema={validationSchema}
             >
                <AppFormField

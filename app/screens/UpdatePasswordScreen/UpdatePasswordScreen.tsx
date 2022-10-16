@@ -15,6 +15,7 @@ import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
 import useAuthFlow from '../../hooks/useAuthFlow'
 import { AuthRoutesParams } from '../../navigation/AuthNavigator'
+import { useAppSelector } from '../../hooks/useRedux'
 
 const validationSchema = Yup.object().shape({
     code: Yup.string().required(),
@@ -22,16 +23,16 @@ const validationSchema = Yup.object().shape({
  })
 
  type UpdatePasswordProps = {
-    email: string;
     code: string;
     password: string;
  }
 
 const UpdatePasswordScreen = () => {
 
+    const userEmail = useAppSelector((state) => state.user.userEmail)
     const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
     const {params} = useRoute<RouteProp<AuthRoutesParams>>()
-    const {request, loading} = useAuthFlow()
+    const {request, loading, error} = useAuthFlow()
 
     return (
         <Screen>
@@ -39,24 +40,13 @@ const UpdatePasswordScreen = () => {
               <View style={styles.container}>
                  <Text style={styles.title}>Update Password</Text>
                  <AppForm
-                    initialValues={{email: '', code: '', password: ''}}
-                    onSubmit={({email,code, password}: UpdatePasswordProps) => {
-                        request(Auth.forgotPasswordSubmit(email, code, password))}
-                        
-                    }
+                    initialValues={{code: '', password: ''}}
+                    onSubmit={({code, password}: UpdatePasswordProps) => {
+                        request(Auth.forgotPasswordSubmit(userEmail, code, password))
+                        .then(() => {if(!error) {navigation.navigate(routes.LOGIN)}})
+                     }}
                     validationSchema={validationSchema}
                  >
-                     <AppFormField
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  icon="email-outline"
-                  name="email"
-                  keyboardType="email-address"
-                  placeholder="Email"
-                  textContentType="emailAddress"
-                  value={params?.email}
-                  editable={false}
-                        />
 
                     <AppFormField
                     autoCapitalize="none"

@@ -8,7 +8,6 @@ const useAuthFlow = () => {
     const [loading, setLoading] = useState<boolean>(false)
 
     const request = async (authFunc: Promise<any>) => {
-        console.log('type', authFunc)
         setLoading(true)
             try {
                const response = await authFunc

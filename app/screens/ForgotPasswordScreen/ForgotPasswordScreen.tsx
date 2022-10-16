@@ -14,6 +14,8 @@ import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
 import useAuthFlow from '../../hooks/useAuthFlow'
 import { AuthRoutesParams } from '../../navigation/AuthNavigator'
+import { useAppDispatch } from '../../hooks/useRedux'
+import { setEmailUser } from '../../redux/userSlice'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().required().email()
@@ -25,9 +27,11 @@ const validationSchema = Yup.object().shape({
 
 
 const ForgotPasswordScreen = () => {
-    
+
+    const dispatch = useAppDispatch()
     const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>()
     const {request, loading, data, error} = useAuthFlow()
+
     return (
         <Screen>
            <FormsTemplate>
@@ -35,9 +39,11 @@ const ForgotPasswordScreen = () => {
                  <Text style={styles.title}>Forgot Password</Text>
                  <AppForm
                     initialValues={{email: ''}}
-                    onSubmit={({email}: ForgotPasswordProps) => request(Auth.forgotPassword(email)).then(() => {
+                    onSubmit={({email}: ForgotPasswordProps) => {
+                        dispatch(setEmailUser(email))
+                        request(Auth.forgotPassword(email)).then(() => {
                         if(!error) {navigation.navigate(routes.UPDATEPASSWORD, {email: email})}
-                    })}
+                    })}}
                     validationSchema={validationSchema}
                  >
                     <AppFormField

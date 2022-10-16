@@ -1,7 +1,11 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TextInputProps } from 'react-native'
+
 export interface AppTextInputProps {
     placeholder: string;
-    icon?: any;
+    icon?: keyof typeof MaterialCommunityIcons.glyphMap;
     isPassword?: boolean;
     size?: number;
-    otherProps?: any[]; 
+    otherProps?: TextInputProps;
+    backgroundColor?: string; 
 }

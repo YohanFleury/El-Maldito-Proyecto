@@ -1,10 +1,17 @@
 import React from 'react'
 
 import Constants from 'expo-constants'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View, ViewStyle } from 'react-native'
 import colors from '../config/colors'
 
-const Screen = ({ children, style }: any) => {
+type ScreenProps = {
+    style?: ViewStyle;
+    children: 
+    | JSX.Element
+    | JSX.Element[]
+}
+
+const Screen = ({ children, style }: ScreenProps) => {
     return (
     <>
         <SafeAreaView style={[styles.screen, style]}>

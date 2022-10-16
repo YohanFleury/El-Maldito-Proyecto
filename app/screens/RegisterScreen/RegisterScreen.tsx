@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import * as Yup from 'yup'
 import { Auth } from 'aws-amplify'
@@ -14,9 +14,11 @@ import CtaPhrase from '../../components/Forms/CtaPhrase'
 import routes from '../../navigation/routes'
 import useAuthFlow from '../../hooks/useAuthFlow'
 import { AuthRoutesParams } from '../../navigation/AuthNavigator'
+import { useAppDispatch } from '../../hooks/useRedux'
+import { setConfirmEmail } from '../../redux/userSlice'
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required().min(3).max(13),
+    name: Yup.string().required().matches(/^[a-zA-Z0-9]+$/, "Only alphabets are allowed for this field ").min(3).max(13),
     email: Yup.string().required().email().label('Email'),
     password: Yup.string().required().min(5).max(15).label('Password'),
  })
@@ -28,9 +30,18 @@ const validationSchema = Yup.object().shape({
 
 const RegisterScreen = () => {
 
-   const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>() 
-   const {request, loading} = useAuthFlow()
+    const dispatch = useAppDispatch()
+    const navigation = useNavigation<NativeStackNavigationProp<AuthRoutesParams>>() 
+    const {request, loading, error} = useAuthFlow()
+    const [fuckingMail, setfuckingMail] = useState<string>('')
+    const [goToConfirm, setGoToConfirm] = useState<boolean>(false)
+    useEffect(() => {
+        if(goToConfirm) {
+            navigation.navigate(routes.CONFIRMEMAIL, {email: fuckingMail}) 
+        } 
+    }, [goToConfirm])
     
+
    return (
       <Screen>
         <FormsTemplate>
@@ -38,20 +49,23 @@ const RegisterScreen = () => {
                 <Text style={styles.title}>Sign up</Text>
                 <AppForm
                     initialValues={{name: '', email: '', password: '', confirmPassword: ''}}
-                    onSubmit={({email, password, name}: DataSignUpProps) => request(Auth.signUp({
+                    onSubmit={({email, password, name}: DataSignUpProps) => {
+                        setfuckingMail(email)
+                        request(Auth.signUp({
                         username: email,
                         password,
-                        attributes: {name}
-                    }))}
+                        attributes: {name: name}
+                    }).then(() => setGoToConfirm(true))
+                    )}}
                     validationSchema={validationSchema}
                 >
                      <AppFormField
                         autoCapitalize="none"
                         autoCorrect={false}
-                        icon="human-greeting-variant"
+                        icon="at"
                         name="name"
                         keyboardType="default"
-                        placeholder="Username"
+                        placeholder="username"
                         textContentType="name"
                                 />
                     <AppFormField

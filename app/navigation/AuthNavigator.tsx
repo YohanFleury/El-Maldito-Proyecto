@@ -11,7 +11,7 @@ import routes from './routes'
 export type AuthRoutesParams = {
    Login: undefined;
    Register: undefined;
-   ConfirmEmail: undefined;
+   ConfirmEmail: undefined | {email: string};
    ForgotPassword: undefined;
    UpdatePassword: {email: string};
 }

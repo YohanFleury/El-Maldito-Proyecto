@@ -1,12 +1,14 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import {useFormikContext} from 'formik'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 import ClassicBtn from '../ClassicBtn/ClassicBtn'
 
 interface SubmitBtnProps {
     title: string;
-    icon?: any
+    icon?: keyof typeof MaterialCommunityIcons.glyphMap;
 }
 
 const SubmitBtn = ({title, icon}: SubmitBtnProps) => {

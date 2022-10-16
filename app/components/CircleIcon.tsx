@@ -2,7 +2,13 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import colors from '../config/colors'
 
-const CircleIcon = ({children}: any) => {
+type CircleIconProps = {
+   children: 
+   | JSX.Element
+   | JSX.Element[]
+}
+
+const CircleIcon = ({children}: CircleIconProps) => {
    return (
       <View style={styles.container}>
         {children}
