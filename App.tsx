@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, } from 'react-native';
+import { Provider } from 'react-redux'
+import { store } from './app/redux/store'
+import MyApp from './MyApp';
 
-export default function App() {
+const App = () => {
+
   return (
-    <View style={styles.container}>
-      <Text>Bienvenue sur l'app ragazzi, ça commence bientôt...</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+      <MyApp />
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+export default App
+
+
+{/* <ProfilScreen
+          userName='max_psg'
+          accountName='Maxime Neymar'
+          bio="Hello moi c'est maxime, ultra du psg depuis 27 ans ! Je vais vous faire 
+          vivre ma passion avec ferveur. Allez Paris !!"
+          followers={315450}
+          coverPictureSource={require('./app/assets/psg.jpg')}
+          profilPictureSource={require('./app/assets/maxime.jpg')}
+          onPressProfilPicture={() => console.log('photo pressed')}
+          ppSize={90}
+        /> */}
