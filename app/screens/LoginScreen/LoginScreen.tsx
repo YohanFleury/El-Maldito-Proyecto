@@ -16,6 +16,7 @@ import useAuthFlow from '../../hooks/useAuthFlow'
 import { AuthRoutesParams } from '../../navigation/AuthNavigator'
 import { useAppDispatch } from '../../hooks/useRedux'
 import { setEmailUser, setUser } from '../../redux/userSlice'
+import colors from '../../config/colors'
 
 
 const validationSchema = Yup.object().shape({
@@ -47,7 +48,7 @@ const LoginScreen = () => {
    }, [error])
    
    return (
-   <Screen>
+   <Screen style={{backgroundColor: colors.primary}}>
       <FormsTemplate socialMedia>
          <View style={styles.container}>
             <Text style={styles.title}>Sign in</Text>
@@ -95,7 +96,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
    container: {
       marginTop: '15%',
-      padding: 20
+      padding: 20,
    },
    title: {
       fontSize: 27,
