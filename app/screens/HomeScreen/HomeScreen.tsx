@@ -25,11 +25,12 @@ const HomeScreen = () => {
        </View>
        }
        </>
+        {data &&
         <View style={{flex: 1, alignItems: 'center' ,justifyContent: 'space-between'}}>
          <Text style={{marginTop: 100, fontSize: 20}}>Welcome @{data?.attributes.name} ! </Text>
          <Text style={{ fontSize: 20}}> La suite arrive bientôt ... </Text>
          <Button title='Log out' onPress={() => request(Auth.signOut())} />
-        </View>
+        </View>}
      </Screen>
    )
 }
