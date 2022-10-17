@@ -18,7 +18,7 @@ const HomeScreen = () => {
   
     
    return (
-     <Screen >
+     <Screen style={{backgroundColor: 'white'}} >
       <ScrollView>
       <FeedCard
         name="Maxime Ney"

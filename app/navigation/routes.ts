@@ -4,5 +4,9 @@ export default Object.freeze({
     CONFIRMEMAIL: 'ConfirmEmail',
     FORGOTPASSWORD: 'ForgotPassword',
     UPDATEPASSWORD: 'UpdatePassword',
-    HOME: 'Home'
+    FEED: 'Feed',
+    HOME: 'Home',
+    NOTIFS: 'Notifs',
+    SEARCH: 'Search',
+    SETTINGS: 'Settings'
 })
