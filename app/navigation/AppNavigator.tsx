@@ -12,7 +12,9 @@ const Stack = createNativeStackNavigator()
 const AppNavigator = () => {
    return (
       <Stack.Navigator>
-        <Stack.Screen name={routes.HOME} component={HomeScreen} options={{headerStyle: {backgroundColor: colors.primary}, headerTitleStyle: {color: colors.white}}} />
+        <Stack.Screen name={routes.HOME} 
+        component={HomeScreen} 
+        options={{ headerShown: false }}        />
       </Stack.Navigator>
    )
 }

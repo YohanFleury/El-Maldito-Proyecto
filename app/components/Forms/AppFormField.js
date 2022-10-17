@@ -6,7 +6,7 @@ import AppTextInput from '../AppTextInput/AppTextInput'
 import ErrorMessage from './ErrorMessage'
 
 
-const AppFormField = ({ name, backgroundColor = 'white', ...otherProps }) => {
+const AppFormField = ({ name, backgroundColor, ...otherProps }) => {
     const {setFieldTouched, handleChange, errors, touched} = useFormikContext()
    return (
    <>   
