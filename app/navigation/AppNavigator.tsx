@@ -15,7 +15,8 @@ const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
    return (
-      <Tab.Navigator screenOptions={({ route }) => ({
+      <Tab.Navigator 
+      screenOptions={({ route }) => ({
          tabBarIcon: ({ focused, color, size }) => {
            if (route.name === routes.FEED) {
                return <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={colors.primary} size={30} />
@@ -30,7 +31,9 @@ const AppNavigator = () => {
            }
          },
          tabBarLabel:() => {return null}
-       })}>
+       })}
+       
+       >
          <Tab.Screen name={routes.FEED} component={FeedNavigator} options={{headerShown: false}} />
          <Tab.Screen name={routes.NAVPROFIL} component={SearchNavigator} options={{headerShown: false}} /> 
          <Tab.Screen name={routes.NOTIFS} component={NotifsScreen} />

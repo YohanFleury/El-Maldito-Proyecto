@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        padding: 10
+        padding: 5
         
     },
     screen: {

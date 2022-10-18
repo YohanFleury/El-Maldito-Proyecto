@@ -6,10 +6,10 @@ import { AppTextInputProps } from './AppTextInput-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const AppTextInput = ({ icon, isPassword = false, size=20, backgroundColor, autoFocus, ...otherProps }: AppTextInputProps) => {
+const AppTextInput = ({ icon, isPassword = false, size=20, backgroundColor, autoFocus, widthContainer = "100%", ...otherProps }: AppTextInputProps) => {
     const [isHidden, setIsHidden] = useState<boolean>(isPassword)
    return (
-      <View style={[styles.container, {backgroundColor: backgroundColor }]}>
+      <View style={[styles.container, {backgroundColor: backgroundColor, width: widthContainer }]}>
         <View style={styles.secondContainer}>
             {icon && 
             <MaterialCommunityIcons name={icon} size={size} color="#293241" style={styles.icon} />

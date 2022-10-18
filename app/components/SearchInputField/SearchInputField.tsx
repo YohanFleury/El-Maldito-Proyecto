@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native'
 import {MaterialCommunityIcons, Fontisto, Octicons, FontAwesome, Ionicons } from '@expo/vector-icons'
 
 import colors from '../../config/colors'
@@ -9,51 +9,43 @@ import { SearchInputFieldProps } from './SearchInputField-types'
 const SearchInputField = ({placeholder}: SearchInputFieldProps) => {
 
     const [inputVisible, setInputVisible] = useState<boolean>(false)
-    const [iconStyle, setIconStyle] = useState<boolean>(false)
 
     const handleClick = () => {
         setInputVisible(!inputVisible)
-        setIconStyle(!iconStyle)
     }
 
-    const textInput = inputVisible
-        ? <AppTextInput
-            placeholder={placeholder}
-            autoFocus={inputVisible}
-             />
-        : <></>
-
     return (
-        <View style={iconStyle ? styles.container : styles.containerBis}>
+        <View style={inputVisible ? styles.container : styles.containerBis}>
             {inputVisible &&
-            <AppTextInput
-            
-            placeholder={placeholder}
-            autoFocus={inputVisible}
-             />
+            <>
+                <AppTextInput
+                placeholder={placeholder}
+                autoFocus
+                widthContainer='80%'
+                />
+                <Text style={{fontWeight: 'bold'}} onPress={handleClick}>Annuler</Text>
+            </>
             }
+            {!inputVisible &&
             <TouchableWithoutFeedback onPress={handleClick}>
-                {iconStyle 
-                ? <MaterialCommunityIcons onPress={handleClick} name="close" color={colors.primary} size={37} /> 
-                : <FontAwesome name="search" size={31} color={colors.primary} />}
-            </TouchableWithoutFeedback>
+                <FontAwesome name="search" size={24} color={colors.primary} />
+            </TouchableWithoutFeedback>}
         </View>
     )
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 80,
+        width: "100%",
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 10
+        padding: 5,
     },
     containerBis: {
-        height: 80,
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 10,
+        padding: 5,
     },
 })
 export default SearchInputField
