@@ -6,7 +6,7 @@ import { AppTextInputProps } from './AppTextInput-types'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const AppTextInput = ({ icon, isPassword = false, size=20, backgroundColor, ...otherProps }: AppTextInputProps) => {
+const AppTextInput = ({ icon, isPassword = false, size=20, backgroundColor, autoFocus, ...otherProps }: AppTextInputProps) => {
     const [isHidden, setIsHidden] = useState<boolean>(isPassword)
    return (
       <View style={[styles.container, {backgroundColor: backgroundColor }]}>
@@ -19,6 +19,7 @@ const AppTextInput = ({ icon, isPassword = false, size=20, backgroundColor, ...o
                 placeholderTextColor='#777E90'
                 style={styles.input}
                 {...otherProps}
+                autoFocus={autoFocus}
                 secureTextEntry={isHidden}
                 maxLength={25}
                 returnKeyType='done'

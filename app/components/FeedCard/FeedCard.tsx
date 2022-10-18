@@ -16,7 +16,8 @@ const FeedCard =({
     imageSource,
     userName,
     name,
-    publicationTime
+    publicationTime,
+    onPpPress
  }: PubliCardProps)=> {
 
     const [outline, setOutline] = useState(true)
@@ -30,7 +31,7 @@ const FeedCard =({
     <>
     <View style={styles.container}>
         <View style={styles.leftContainer}>
-            <ProfilPicture source={avatarSource} onPress={() => console.log('Go to user Profil')} size={52} />
+            <ProfilPicture source={avatarSource} onPress={onPpPress} size={52} />
         </View>
         <View style={styles.rightContainer}>
             <View style={styles.topContainer}>

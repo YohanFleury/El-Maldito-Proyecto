@@ -17,7 +17,7 @@ const NotifCard = ({ content, time, onPress, onPressAvatar, source }: NotifCardP
                         <ProfilPicture size={65} source={source} onPress={onPressAvatar} />
                     </View>
                     <View style={styles.content}>
-                        <Text style={{color: colors.medium}}>{content}</Text>
+                        <Text>{content}</Text>
                     </View>
                     <View style={styles.time}>
                         <Text style={styles.timeText}>{time}</Text>

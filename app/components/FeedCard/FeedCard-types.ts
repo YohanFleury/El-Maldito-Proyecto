@@ -7,5 +7,5 @@ export interface PubliCardProps {
     userName: string;
     name: string;
     publicationTime: string;
-
+    onPpPress: () => void;
 }

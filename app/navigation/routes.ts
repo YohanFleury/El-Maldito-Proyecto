@@ -8,5 +8,7 @@ export default Object.freeze({
     HOME: 'Home',
     NOTIFS: 'Notifs',
     SEARCH: 'Search',
-    SETTINGS: 'Settings'
+    SETTINGS: 'Settings',
+    PROFIL: 'Profil',
+    NAVPROFIL: 'Navprofil'
 })

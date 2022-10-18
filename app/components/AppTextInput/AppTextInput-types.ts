@@ -8,4 +8,5 @@ export interface AppTextInputProps {
     size?: number;
     otherProps?: TextInputProps;
     backgroundColor?: string; 
+    autoFocus?: boolean
 }

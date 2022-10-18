@@ -5,10 +5,10 @@ import {MaterialCommunityIcons, Fontisto, Octicons, FontAwesome, Ionicons } from
 
 import routes from './routes'
 import NotifsScreen from '../screens/NotifsScreen/NotifsScreen';
-import SearchScreen from '../screens/SearchScreen/SearchScreen';
 import FeedNavigator from './FeedNavigator';
 import colors from '../config/colors';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
+import SearchNavigator from './SearchNavigator';
 
 
 const Tab = createBottomTabNavigator();
@@ -19,7 +19,7 @@ const AppNavigator = () => {
          tabBarIcon: ({ focused, color, size }) => {
            if (route.name === routes.FEED) {
                return <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={colors.primary} size={30} />
-           } else if (route.name === routes.SEARCH) {
+           } else if (route.name === routes.NAVPROFIL) {
              return focused 
              ? <FontAwesome name="search" size={size} color={colors.primary} /> 
              : <Octicons name="search" size={size} color={colors.primary} />
@@ -31,8 +31,8 @@ const AppNavigator = () => {
          },
          tabBarLabel:() => {return null}
        })}>
-        <Tab.Screen name={routes.FEED} component={FeedNavigator} />
-         <Tab.Screen name={routes.SEARCH} component={SearchScreen} /> 
+         <Tab.Screen name={routes.FEED} component={FeedNavigator} options={{headerShown: false}} />
+         <Tab.Screen name={routes.NAVPROFIL} component={SearchNavigator} options={{headerShown: false}} /> 
          <Tab.Screen name={routes.NOTIFS} component={NotifsScreen} />
          <Tab.Screen name={routes.SETTINGS} component={SettingsScreen} /> 
       </Tab.Navigator>
