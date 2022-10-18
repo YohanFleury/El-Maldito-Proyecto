@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
+import feedSlice from './feedSlice'
+import stackHeaderSlice from './stackHeaderSlice'
 import userSlice from './userSlice'
 
 
 export const store = configureStore({
     reducer: {
-        user: userSlice
+        user: userSlice,
+        stackHeader: stackHeaderSlice,
+        feed: feedSlice
     }
 })
 
