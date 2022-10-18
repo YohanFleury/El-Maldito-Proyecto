@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native'
+import { View, StyleSheet, FlatList, Text } from 'react-native'
 import Screen from '../../components/Screen'
 
 import {Auth} from 'aws-amplify'
@@ -10,6 +10,8 @@ import { SearchRoutesParams } from '../../navigation/SearchNavigator'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import routes from '../../navigation/routes'
 import { FeedRoutesParams } from '../../navigation/FeedNavigator'
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux'
+import { setShowStackHome } from '../../redux/stackHeaderSlice'
 
 
 const dataFeed = [
@@ -74,14 +76,28 @@ const HomeScreen = () => {
     getCurrentUser(Auth.currentUserInfo())
   }, [])
   
+  const isPrivateFeed = useAppSelector((state) => state.feed.isPrivateFeed)
+  const dispatch = useAppDispatch()
   const navigation = useNavigation<NativeStackNavigationProp<FeedRoutesParams>>()
   const {request} = useAuthFlow()
   const {request: getCurrentUser, data} = useAuthFlow()
-  
+  const [offset, SetOffset] = React.useState(0)
     
    return (
      <Screen style={{backgroundColor: 'white'}} >
-      <FlatList
+      
+      {isPrivateFeed 
+      ? <Text>Ceci sera le feed avec UNIQUEMENT les abonnements privés !</Text>
+      : <FlatList
+          onScroll={(e: any) => {
+            let currentOffset = e.nativeEvent.contentOffset.y;
+            if (currentOffset > 0 && currentOffset < 600){
+              currentOffset > offset 
+              ? dispatch(setShowStackHome(false)) 
+              : dispatch(setShowStackHome(true))
+              SetOffset(currentOffset)
+            }
+          }}
           horizontal={false}
           data={dataFeed}
           keyExtractor={listing => listing.id.toString()}
@@ -97,7 +113,8 @@ const HomeScreen = () => {
             userName={item.userName}
             publicationTime={item.publicationTime}
           />
-          )} />
+          )}
+           />}
       
      </Screen>
    )
