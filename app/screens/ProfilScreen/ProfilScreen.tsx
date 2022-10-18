@@ -15,16 +15,7 @@ import CircleIcon from '../../components/CircleIcon';
 import { AccountProProps } from './ProfilScreen-types';
 
 
-const ProfilScreen = ({
-    userName,
-    accountName,
-    bio,
-    followers,
-    coverPictureSource, 
-    profilPictureSource, 
-    ppSize,
-    onPressProfilPicture
-}: AccountProProps) => {
+const ProfilScreen = () => {
 
     const kFormatteur = (num: number) => {
         const value: any = ((Math.abs(num)/1000).toFixed(0))
@@ -36,9 +27,9 @@ const ProfilScreen = ({
         <ScrollView>
             <View style={styles.mainContainer}>
                 <View style={styles.test}>
-                    <CoverPicture source={coverPictureSource} />
-                    <View style={[styles.ppContainer, {width: ppSize+10, height: ppSize+10, borderRadius: (ppSize+10)/2}]}>
-                        <ProfilPicture onPress={onPressProfilPicture} size={ppSize} source={profilPictureSource} isCertified />
+                    <CoverPicture source={require('../../assets/psg.jpg')} />
+                    <View style={[styles.ppContainer, {width: 90+10, height: 90+10, borderRadius: (90+10)/2}]}>
+                        <ProfilPicture onPress={() => console.log('pp')} size={90} source={require('../../assets/maxime.jpg')} isCertified />
                     </View>
                 </View>
                 <View style={styles.container2}>
@@ -49,15 +40,16 @@ const ProfilScreen = ({
                             </View>
                             <View style={styles.verified}>
                                 <Text style={styles.accountName}>
-                                    {accountName}
+                                    Maxime Neymar
                                 </Text>
                                 <Feather name="check-circle" size={18} color="black" />
                             </View>
                             <Text style={styles.userName}>
-                                @{userName}                    
+                                @max_psg                    
                             </Text>
                             <Text style={styles.bio}>
-                                {bio}
+                                Investisseur cryptos, ici on fait gagner sale !
+                                Satisfait ou remboursé direct garçon
                             </Text>
                         </View>
                         <View style={styles.iconsActions}>
@@ -69,7 +61,7 @@ const ProfilScreen = ({
                 </View>
             </View>
             <View style={styles.followers}>
-                <Text style={{marginRight: 5, fontSize: 13}}>{kFormatteur(followers)}</Text>
+                <Text style={{marginRight: 5, fontSize: 13}}>{kFormatteur(282500)}</Text>
                 <Text style={{color: colors.medium, fontSize: 13}}>followers</Text>
             </View>
             <Divider width={1} color={colors.lightGrey} />

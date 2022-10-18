@@ -15,7 +15,6 @@ import colors from '../../config/colors'
 import routes from '../../navigation/routes'
 import useAuthFlow from '../../hooks/useAuthFlow'
 import { AuthRoutesParams } from '../../navigation/AuthNavigator'
-import { useAppSelector } from '../../hooks/useRedux'
 import type { RouteProp } from '@react-navigation/native';
 
 

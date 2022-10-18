@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { TextInputProps } from 'react-native'
+import { TextInputProps, StyleProp, } from 'react-native'
 
 export interface AppTextInputProps {
     placeholder: string;
@@ -8,4 +8,6 @@ export interface AppTextInputProps {
     size?: number;
     otherProps?: TextInputProps;
     backgroundColor?: string; 
+    autoFocus?: boolean;
+    widthContainer?: string;
 }
