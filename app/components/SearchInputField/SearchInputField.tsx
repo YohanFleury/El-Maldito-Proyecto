@@ -13,7 +13,6 @@ const SearchInputField = ({placeholder}: SearchInputFieldProps) => {
     const handleClick = () => {
         setInputVisible(!inputVisible)
     }
-
     return (
         <View style={inputVisible ? styles.container : styles.containerBis}>
             {inputVisible &&
@@ -23,7 +22,7 @@ const SearchInputField = ({placeholder}: SearchInputFieldProps) => {
                 autoFocus
                 widthContainer='80%'
                 />
-                <Text style={{fontWeight: 'bold'}} onPress={handleClick}>Annuler</Text>
+                <Text style={{fontWeight: 'bold'}} onPress={() => setInputVisible(false)}>Annuler</Text>
             </>
             }
             {!inputVisible &&

@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image } from 'react-native'
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons, FontAwesome, Foundation } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import routes from './routes';
@@ -9,15 +9,18 @@ import ProfilScreen from '../screens/ProfilScreen/ProfilScreen';
 import colors from '../config/colors';
 import { useAppDispatch, useAppSelector } from '../hooks/useRedux';
 import { setIsPrivateFeed } from '../redux/feedSlice';
+import { useNavigation } from '@react-navigation/native';
+import CreateNewFeed from '../screens/CreateNewFeed/CreateNewFeed';
 
 export type FeedRoutesParams = {
    Home: undefined;
    Profil: undefined;
+   CreateNewFeed: undefined;
 }
 
 const Stack = createNativeStackNavigator<FeedRoutesParams>()
 
-const FeedNavigator = () => {
+const FeedNavigator = ({navigation}: any) => {
 
    const dispatch = useAppDispatch()
    const showHeader = useAppSelector((state) => state.stackHeader.stackHome)
@@ -30,21 +33,23 @@ const FeedNavigator = () => {
          {headerTitle: () => {
          return (
          <View style={{flexDirection: 'row', width: "95%", justifyContent: 'space-between', alignItems: 'center'}}>
-            <Text>???</Text>
-            <Image source={require('../assets/vector.png')} style={{width: 35, height: 35}} />
+            <FontAwesome onPress={() => navigation.openDrawer()} name="user-circle-o" size={27} color={colors.dark} />
+            <Foundation name="social-skillshare" size={45} color={colors.primary} />
             {!isPrivateFeed &&
-            <MaterialIcons onPress={() => dispatch(setIsPrivateFeed(true))} name="vpn-lock" size={28} color={colors.primary} />}
+               <MaterialCommunityIcons onPress={() => dispatch(setIsPrivateFeed(true))} name="earth" size={29} color={colors.dark} />}
             {isPrivateFeed && 
-            <MaterialCommunityIcons onPress={() => dispatch(setIsPrivateFeed(false))} name="earth" size={29} color={colors.primary} />}
+               <MaterialIcons onPress={() => dispatch(setIsPrivateFeed(false))} name="vpn-lock" size={28} color={colors.secondary} />}
          </View>
          )
          }, 
-         headerShown: true}
+         headerShown: true, fullScreenGestureEnabled: true}
          
       }
         
         />
-        <Stack.Screen name={routes.PROFIL} component={ProfilScreen} options={{headerShown: true, fullScreenGestureEnabled: true}}  />
+        <Stack.Screen  name={routes.PROFIL} component={ProfilScreen} options={{headerShown: true, fullScreenGestureEnabled: true}} />
+        <Stack.Screen  name={routes.CREATENEWFEED} component={CreateNewFeed} options={{animationTypeForReplace: 'pop', presentation: 'modal', headerShown: false}} />
+
     </Stack.Navigator>
    )
 }

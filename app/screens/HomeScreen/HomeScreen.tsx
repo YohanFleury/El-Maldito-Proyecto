@@ -85,7 +85,6 @@ const HomeScreen = () => {
     
    return (
      <Screen style={{backgroundColor: 'white'}} >
-      
       {isPrivateFeed 
       ? <Text>Ceci sera le feed avec UNIQUEMENT les abonnements privés !</Text>
       : <FlatList
