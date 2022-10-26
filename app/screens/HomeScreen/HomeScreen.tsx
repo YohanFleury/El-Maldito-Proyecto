@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
 import { View, StyleSheet, FlatList, Text } from 'react-native'
-import Screen from '../../components/Screen'
-
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import {Auth} from 'aws-amplify'
+import { useNavigation } from '@react-navigation/native'
+
+import Screen from '../../components/Screen'
 import useAuthFlow from '../../hooks/useAuthFlow'
 import FeedCard from '../../components/FeedCard/FeedCard'
-import { useNavigation } from '@react-navigation/native'
 import { SearchRoutesParams } from '../../navigation/SearchNavigator'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import routes from '../../navigation/routes'
 import { FeedRoutesParams } from '../../navigation/FeedNavigator'
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux'
 import { setShowStackHome } from '../../redux/stackHeaderSlice'
-
+import useApi from '../../hooks/useApi'
+import categories from '../../api/categories'
+import { ApiResponse } from 'apisauce'
 
 const dataFeed = [
   {
@@ -72,6 +74,7 @@ const dataFeed = [
 
 const HomeScreen = () => {
 
+ 
   useEffect(() => {
     getCurrentUser(Auth.currentUserInfo())
   }, [])

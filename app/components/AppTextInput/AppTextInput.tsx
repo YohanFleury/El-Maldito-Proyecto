@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
    },
    input: {
     width: '95%',
+    borderWidth: 0
    },
    icon: {
     marginRight: 10,

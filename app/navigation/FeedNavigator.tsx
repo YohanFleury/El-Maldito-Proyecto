@@ -32,7 +32,7 @@ const FeedNavigator = ({navigation}: any) => {
         options={
          {headerTitle: () => {
          return (
-         <View style={{flexDirection: 'row', width: "95%", justifyContent: 'space-between', alignItems: 'center'}}>
+         <View style={{flexDirection: 'row', width: "95%", justifyContent: 'space-between', alignItems: 'center', marginBottom: 5}}>
             <FontAwesome onPress={() => navigation.openDrawer()} name="user-circle-o" size={27} color={colors.dark} />
             <Foundation name="social-skillshare" size={45} color={colors.primary} />
             {!isPrivateFeed &&
@@ -48,7 +48,7 @@ const FeedNavigator = ({navigation}: any) => {
         
         />
         <Stack.Screen  name={routes.PROFIL} component={ProfilScreen} options={{headerShown: true, fullScreenGestureEnabled: true}} />
-        <Stack.Screen  name={routes.CREATENEWFEED} component={CreateNewFeed} options={{animationTypeForReplace: 'pop', presentation: 'modal', headerShown: false}} />
+        <Stack.Screen  name={routes.CREATENEWFEED} component={CreateNewFeed} options={{animationTypeForReplace: 'pop', presentation: 'fullScreenModal', headerShown: false,}} />
 
     </Stack.Navigator>
    )

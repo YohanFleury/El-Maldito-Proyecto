@@ -13,21 +13,25 @@ import AppNavigator from './app/navigation/AppNavigator';
 
 
 import { useAppDispatch, useAppSelector } from './app/hooks/useRedux';
-import { setUser } from './app/redux/userSlice';
+import { setUser, setUserToken } from './app/redux/userSlice';
 
 Amplify.configure(awsconfig)
 
 const MyApp = () => {
+
+   const dispatch = useAppDispatch()
+   const userToken = useAppSelector((state) => state.user.jwtToken)
 
    const [currentUser, setCurrentUser] = useState<any>()
    const checkUser = async () => {
       try {
          const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
          setCurrentUser(authUser)
+         dispatch(setUserToken(authUser.signInUserSession.accessToken.jwtToken))
       } catch (error) { 
          setCurrentUser(null) 
       }
-   }
+   } 
    useEffect(() => {
       setCurrentUser(undefined)
      checkUser()
@@ -43,7 +47,7 @@ const MyApp = () => {
    return () => Hub.remove('auth', listener)
  }, [])
 
-console.log('cuurent user', currentUser?.attributes.name, typeof currentUser)
+console.log('userr : ', currentUser?.signInUserSession.idToken)
    if(currentUser === undefined) {
       console.log('YOUUUUUUUu')
       return (
