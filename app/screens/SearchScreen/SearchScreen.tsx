@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -57,12 +57,13 @@ const data = [
 ]
 
 const SearchScreen = () => {
-
+    const [isSearchInputFocus, setIsSearchInputFocus] = useState<boolean>(false)
     const navigation = useNavigation<NativeStackNavigationProp<SearchRoutesParams>>()
     return (
         <Screen style={styles.screen}>
                 
             <FlatList
+            onScroll={() => setIsSearchInputFocus(false)}
             ListHeaderComponent={
                 <View style={styles.icons}>
                     <SearchInputField placeholder="Rechercher un profil" />

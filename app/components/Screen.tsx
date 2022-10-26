@@ -19,7 +19,6 @@ const Screen = ({ children, style }: ScreenProps) => {
                 {children}
             </View>
         </SafeAreaView>
-        <SafeAreaView style={{ flex:0, backgroundColor: colors.white }} />
     </>
     )
 }

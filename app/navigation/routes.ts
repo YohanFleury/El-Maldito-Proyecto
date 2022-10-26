@@ -9,6 +9,9 @@ export default Object.freeze({
     NOTIFS: 'Notifs',
     SEARCH: 'Search',
     SETTINGS: 'Settings',
+    MESSAGES: 'Messages',
     PROFIL: 'Profil',
-    NAVPROFIL: 'Navprofil'
+    NAVPROFIL: 'Navprofil',
+    CREATENEWFEED: 'CreateNewFeed',
+    DRAWERNAV: 'DrawerNav'
 })

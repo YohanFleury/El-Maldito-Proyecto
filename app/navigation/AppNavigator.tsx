@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {MaterialCommunityIcons, Fontisto, Octicons, FontAwesome, Ionicons } from '@expo/vector-icons'
 
@@ -7,37 +7,52 @@ import routes from './routes'
 import NotifsScreen from '../screens/NotifsScreen/NotifsScreen';
 import FeedNavigator from './FeedNavigator';
 import colors from '../config/colors';
-import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import SearchNavigator from './SearchNavigator';
-
+import MessageScreen from '../screens/MessagesScreen/MessageScreen';
+import CreateNewFeed from '../screens/CreateNewFeed/CreateNewFeed';
+import NewFeedBtn from '../components/NewFeedBtn';
+import DrawerNavigator from './DrawerNavigator';
 
 const Tab = createBottomTabNavigator();
 
+const TestScreen = () => <View style={{flex: 1, backgroundColor:'blue'}}></View>
+
 const AppNavigator = () => {
+
    return (
       <Tab.Navigator 
       screenOptions={({ route }) => ({
-         tabBarIcon: ({ focused, color, size }) => {
-           if (route.name === routes.FEED) {
-               return <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={colors.primary} size={30} />
+         tabBarIcon: ({ focused }) => {
+           if (route.name === routes.DRAWERNAV) {
+               return <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={colors.primary} size={27} />
            } else if (route.name === routes.NAVPROFIL) {
              return focused 
-             ? <FontAwesome name="search" size={size} color={colors.primary} /> 
-             : <Octicons name="search" size={size} color={colors.primary} />
+             ? <FontAwesome name="search" size={22} color={colors.primary} /> 
+             : <Octicons name="search" size={23} color={colors.primary} />
            } else if (route.name === routes.NOTIFS) {
-            return <Fontisto name={focused ? "bell-alt" : "bell"} size={size} color={colors.primary} />
-           } else if (route.name === routes.SETTINGS) {
-            return <Ionicons name={focused ? 'md-settings' : 'md-settings-outline'} size={size} color={colors.primary} />
-           }
+            return <Fontisto style={{marginBottom: 4}} name={focused ? "bell-alt" : "bell"} size={21} color={colors.primary} />
+           } else if (route.name === routes.MESSAGES) {
+            return  <MaterialCommunityIcons style={{marginTop: 2}} name={focused ? 'message-badge' : 'message-badge-outline'} color={colors.primary} size={22} />
+           } else if (route.name === 'test') {
+            return  <NewFeedBtn />
+           } 
          },
-         tabBarLabel:() => {return null}
+         tabBarLabel:() => {return null},
+         fullScreenGestureEnabled: true
        })}
-       
        >
-         <Tab.Screen name={routes.FEED} component={FeedNavigator} options={{headerShown: false}} />
+         <Tab.Screen name={routes.DRAWERNAV} component={DrawerNavigator} options={{headerShown: false, }} />
          <Tab.Screen name={routes.NAVPROFIL} component={SearchNavigator} options={{headerShown: false}} /> 
+         <Tab.Screen name={"test"} component={TestScreen} options={{headerShown: false}} 
+         listeners={({ navigation }) => ({
+            tabPress: e => {
+               e.preventDefault()
+               navigation.navigate(routes.CREATENEWFEED)
+            }
+         })}
+         /> 
          <Tab.Screen name={routes.NOTIFS} component={NotifsScreen} />
-         <Tab.Screen name={routes.SETTINGS} component={SettingsScreen} /> 
+         <Tab.Screen name={routes.MESSAGES} component={MessageScreen} /> 
       </Tab.Navigator>
    )
 }
