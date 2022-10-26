@@ -1,30 +1,40 @@
 import React, {useEffect, useState} from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { View, StyleSheet, FlatList, Button, TextInput, KeyboardAvoidingView, ScrollView, Platform, TouchableWithoutFeedback, Keyboard, Image} from 'react-native'
+import { View, StyleSheet, Text, Switch, FlatList, Button, TextInput, KeyboardAvoidingView, ScrollView, Platform, TouchableWithoutFeedback, Keyboard, Image} from 'react-native'
 import CircleIcon from '../../components/CircleIcon'
-import { AntDesign, MaterialIcons, FontAwesome} from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
+import UploadView from '../../components/UploadView/UploadView';
 import ClassicBtn from '../../components/ClassicBtn/ClassicBtn'
 import Screen from '../../components/Screen'
 import ProfilPicture from '../../components/UserPictures/ProfilPicture'
 import colors from '../../config/colors'
 import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { addImageUri, deleteImageUri, resetImagesUris } from '../../redux/feedSlice';
+import routes from '../../navigation/routes';
+import { FeedRoutesParams } from '../../navigation/FeedNavigator';
 
 const CreateNewFeed = () => {
 
-    const navigation = useNavigation()
+    const navigation = useNavigation<NativeStackNavigationProp<FeedRoutesParams>>()
     const dispatch = useAppDispatch()
     const imagesUrisArray = useAppSelector((state) => state.feed.imagesUris)
 
     const [disabled, setDisabled] = useState<boolean>(true)
+    const [isEnabled, setisEnabled] = useState<boolean>(false)
+    const [publish, setPublish] = useState<boolean>(false)
+    const [uploadVisible, setUploadVisible] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState<string>('')
 
     useEffect(() => {
       dispatch(resetImagesUris())
     }, [])
     
+    useEffect(() => {
+        if (publish) navigation.goBack()
+      }, [publish])
 
     const handleBtnState = (e: string) => {
         setInputValue(e)
@@ -35,7 +45,7 @@ const CreateNewFeed = () => {
 
     const selectImage = async () => {
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync()
-        if(!granted) alert('Autorise wesh!')
+        if(!granted) alert('Autorise wesh panique pas!')
         try {
             const result = await ImagePicker.launchImageLibraryAsync()
             if (!result.cancelled) {
@@ -47,7 +57,7 @@ const CreateNewFeed = () => {
     }
     const takePhoto = async () => {
         const {granted} = await ImagePicker.requestCameraPermissionsAsync()
-        if(!granted) alert('Autorise wesh!')
+        if(!granted) alert('Autorise wesh panique pas!')
         try {
             const result = await ImagePicker.launchCameraAsync()
             if (!result.cancelled) {
@@ -57,24 +67,44 @@ const CreateNewFeed = () => {
             console.log(error)
         }
     }
+
+    const onDoneUpload = () => {
+        setUploadVisible(false)
+        setPublish(true)
+    }
     
+    console.log('porfjpij', uploadVisible)
 
    return (
       <Screen style={styles.container}>
-        <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+        <UploadView visible={uploadVisible} onDone={onDoneUpload} />
+        <KeyboardAvoidingView style={{flex: 1,}} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <TouchableWithoutFeedback  style={{flex: 1}} onPress={Keyboard.dismiss} >
                 <View style={{justifyContent: 'space-between', flex: 0.9, padding: 5}}> 
                     <View style={{ flex: 0.5, }}>
                         <View style={styles.header}>
-                            <Button title='Annuler' onPress={() => navigation.goBack()} color={colors.dark} />
+                            <Button title='Annuler' onPress={() => navigation.goBack()} color="black" />
+                            {!isEnabled && <MaterialCommunityIcons name="earth" size={28} color="black" />}
+                            {isEnabled && <FontAwesome name="lock" size={28} color="black" />}
                             <ClassicBtn 
                                 style={{width: 100, backgroundColor: disabled ? colors.medium : colors.primary}} 
                                 title='POST' 
-                                onPress={disabled ? () => console.log('go !') : () => console.log('go !')}  />
+                                onPress={disabled ? () => console.log('go !') : () => setUploadVisible(true)}  />
                         </View>
                         <View style={{marginTop: 15}}>
                             <View style={styles.user}>
-                                <ProfilPicture size={60} onPress={() => console.log('first')} source={require('../../assets/moichauve.jpg')} />
+                                <ProfilPicture size={50} onPress={() => console.log('first')} source={require('../../assets/moichauve.jpg')} />
+                                <View style={styles.audiance}>
+                                    <Text style={{fontSize: 18}}>{!isEnabled ? 'Publique' : 'Privée'}</Text>
+                                    <Switch
+                                        style={{marginLeft: 10}}
+                                        trackColor={{ false: colors.lightGrey, true: colors.lightGrey }}
+                                        thumbColor={colors.primary}
+                                        ios_backgroundColor={colors.lightGrey}
+                                        onValueChange={() => setisEnabled(x => !x)}
+                                        value={isEnabled}
+                                    />
+                                </View>
                             </View>
                         </View>
                         <View style={styles.textArea}>
@@ -137,9 +167,13 @@ const CreateNewFeed = () => {
 }
 
 const styles = StyleSheet.create({
+   audiance: {
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    justifyContent: 'space-evenly',
+   },
    container: {
     flex: 1,
-
     paddingLeft: 15,
     paddingRight: 15
    },
@@ -175,7 +209,7 @@ const styles = StyleSheet.create({
    },
    user: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
    }
 })
 
