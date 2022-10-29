@@ -7,4 +7,5 @@ export interface ProfilPictureProps {
 
 export interface CoverPictureProps {
     source: any;
+    onPress?: () => void;
 }

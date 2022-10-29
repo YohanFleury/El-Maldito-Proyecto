@@ -9,10 +9,6 @@ import colors from '../../config/colors';
 const ProfilPicture = ({ size, source, onPress, isCertified = false }: ProfilPictureProps) => {
     return (
     <>
-        {isCertified &&
-        <View style={styles.certification}>
-            <FontAwesome5 name="medal" size={24} color="#F0B339" />
-        </View> }
         <TouchableWithoutFeedback onPress={onPress}>
         <View
          style={{

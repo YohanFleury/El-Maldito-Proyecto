@@ -1,13 +1,15 @@
 import React from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, TouchableNativeFeedback } from 'react-native'
 
 import { CoverPictureProps } from './UserPicture-types'
 
-const CoverPicture = ({ source }: CoverPictureProps) => {
+const CoverPicture = ({ source, onPress }: CoverPictureProps) => {
     return (
+    <TouchableNativeFeedback onPress={onPress}>
         <View style={styles.container}>
             <Image style={styles.image} source={source} />
         </View>
+    </TouchableNativeFeedback>
     )
 }
 const styles = StyleSheet.create({
