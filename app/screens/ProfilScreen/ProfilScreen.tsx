@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, Text, Button, ScrollView, Image } from 'react-native'
+import React, { useState } from 'react';
+import { View, StyleSheet, Text, Button, ScrollView,  } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Divider } from 'react-native-elements'
@@ -12,18 +12,23 @@ import ClassicButton from '../../components/ClassicBtn/ClassicBtn';
 import colors from '../../config/colors';
 import Screen from '../../components/Screen' 
 import CircleIcon from '../../components/CircleIcon';
-import { AccountProProps } from './ProfilScreen-types';
+import GoBackBtn from '../../components/Buttons/GoBackBtn';
+import EditProfil from '../../components/EditProfil/EditProfil';
 
 
 const ProfilScreen = () => {
-
     const kFormatteur = (num: number) => {
         const value: any = ((Math.abs(num)/1000).toFixed(0))
         return Math.abs(num) > 999 ? Math.sign(num)* value + 'k' : Math.sign(num)*Math.abs(num)
     }
 
+    const [edit, setEdit] = useState<boolean>(false)
+
     return (
-    <Screen>
+        <Screen>
+        <View style={styles.goBackBtn}>
+            <GoBackBtn />
+        </View>
         <ScrollView>
             <View style={styles.mainContainer}>
                 <View style={styles.test}>
@@ -53,9 +58,10 @@ const ProfilScreen = () => {
                             </Text>
                         </View>
                         <View style={styles.iconsActions}>
-                            <CircleIcon><AntDesign name="adduser" size={24} color={colors.primary} /></CircleIcon>
-                            <CircleIcon><MaterialCommunityIcons name="email-send-outline" size={24} color={colors.primary} /></CircleIcon>
-                            <CircleIcon><Fontisto name="bell" size={24} color={colors.primary} /></CircleIcon>
+                            <EditProfil />
+                            <CircleIcon width={40} height={40} ><AntDesign name="adduser" size={21} color={colors.primary} /></CircleIcon>
+                            <CircleIcon width={40} height={40}><MaterialCommunityIcons name="email-send-outline" size={21} color={colors.primary} /></CircleIcon>
+                            <CircleIcon width={40} height={40}><Fontisto name="bell" size={21} color={colors.primary} /></CircleIcon>
                         </View>
                     </View>
                 </View>
@@ -120,6 +126,13 @@ const styles = StyleSheet.create({
     followers: {
         padding: 10,
         flexDirection: 'row',
+    },
+
+    goBackBtn: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 1,
     },
 
     iconsActions: {

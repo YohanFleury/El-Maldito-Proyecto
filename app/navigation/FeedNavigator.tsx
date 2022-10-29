@@ -47,7 +47,7 @@ const FeedNavigator = ({navigation}: any) => {
       }
         
         />
-        <Stack.Screen  name={routes.PROFIL} component={ProfilScreen} options={{headerShown: true, fullScreenGestureEnabled: true}} />
+        <Stack.Screen  name={routes.PROFIL} component={ProfilScreen} options={{headerShown: false, fullScreenGestureEnabled: true}} />
         <Stack.Screen  name={routes.CREATENEWFEED} component={CreateNewFeed} options={{animationTypeForReplace: 'pop', presentation: 'fullScreenModal', headerShown: false,}} />
 
     </Stack.Navigator>

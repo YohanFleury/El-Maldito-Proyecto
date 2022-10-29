@@ -27,7 +27,6 @@ const MyApp = () => {
       try {
          const authUser = await Auth.currentAuthenticatedUser({bypassCache: true})
          setCurrentUser(authUser)
-         dispatch(setUserToken(authUser.signInUserSession.accessToken.jwtToken))
       } catch (error) { 
          setCurrentUser(null) 
       }
@@ -47,7 +46,7 @@ const MyApp = () => {
    return () => Hub.remove('auth', listener)
  }, [])
 
-console.log('userr : ', currentUser?.signInUserSession.idToken)
+console.log('userr : ', currentUser?.attributes)
    if(currentUser === undefined) {
       console.log('YOUUUUUUUu')
       return (

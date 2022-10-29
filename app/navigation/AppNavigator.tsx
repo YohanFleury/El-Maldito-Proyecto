@@ -2,29 +2,32 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {MaterialCommunityIcons, Fontisto, Octicons, FontAwesome, Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 
 import routes from './routes'
 import NotifsScreen from '../screens/NotifsScreen/NotifsScreen';
-import FeedNavigator from './FeedNavigator';
+import FeedNavigator, { FeedRoutesParams } from './FeedNavigator';
 import colors from '../config/colors';
 import SearchNavigator from './SearchNavigator';
 import MessageScreen from '../screens/MessagesScreen/MessageScreen';
 import CreateNewFeed from '../screens/CreateNewFeed/CreateNewFeed';
 import NewFeedBtn from '../components/NewFeedBtn';
 import DrawerNavigator from './DrawerNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
 
 const TestScreen = () => <View style={{flex: 1, backgroundColor:'blue'}}></View>
 
 const AppNavigator = () => {
-
+   const navigation = useNavigation<NativeStackNavigationProp<FeedRoutesParams>>()
    return (
       <Tab.Navigator 
       screenOptions={({ route }) => ({
          tabBarIcon: ({ focused }) => {
            if (route.name === routes.DRAWERNAV) {
-               return <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={colors.primary} size={27} />
+               return <MaterialCommunityIcons onPress={() => navigation.navigate(routes.HOME)} name={focused ? 'home' : 'home-outline'} color={colors.primary} size={27} />
            } else if (route.name === routes.NAVPROFIL) {
              return focused 
              ? <FontAwesome name="search" size={22} color={colors.primary} /> 
