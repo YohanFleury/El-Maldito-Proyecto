@@ -17,15 +17,9 @@ import EditProfil from '../../components/EditProfil/EditProfil';
 
 
 const ProfilScreen = () => {
-    const kFormatteur = (num: number) => {
-        const value: any = ((Math.abs(num)/1000).toFixed(0))
-        return Math.abs(num) > 999 ? Math.sign(num)* value + 'k' : Math.sign(num)*Math.abs(num)
-    }
-
-    const [edit, setEdit] = useState<boolean>(false)
-
+    
     return (
-        <Screen>
+        <Screen style={{backgroundColor:colors.white}}>
         <View style={styles.goBackBtn}>
             <GoBackBtn />
         </View>
@@ -65,10 +59,6 @@ const ProfilScreen = () => {
                         </View>
                     </View>
                 </View>
-            </View>
-            <View style={styles.followers}>
-                <Text style={{marginRight: 5, fontSize: 13}}>{kFormatteur(282500)}</Text>
-                <Text style={{color: colors.medium, fontSize: 13}}>followers</Text>
             </View>
             <Divider width={1} color={colors.lightGrey} />
             <View style={{padding: 15}}>
